@@ -290,4 +290,158 @@ web-2
 Even if a Pod is deleted (e.g., `web-1`), it will be re-created **with the same volume** and hostname.
 
 ---
+---
+## 🧱 15 - ConfigMap in Kubernetes
+---
+### 📌 What is a ConfigMap?
+
+A **ConfigMap** is used to **store non-sensitive configuration data** in key-value format, outside of your container image.
+
+You can inject this data into Pods as:
+
+* Environment variables
+* Command-line arguments
+* Mounted files
+
+---
+
+### 🧠 Why use ConfigMap?
+
+* Keep images **generic**, configuration **external**
+* Change config without rebuilding container
+* Share common config across multiple Pods
+
+---
+
+### 🛠️ Step-by-Step: Basic Example
+
+Perfect — here's a **very simple, minimal working example** of using a ConfigMap in Kubernetes.
+
+---
+
+### ✅ 1. Create a ConfigMap
+
+```bash
+kubectl create configmap my-config --from-literal=GREETING="Hello from ConfigMap"
+```
+
+This creates a ConfigMap named `my-config` with a key-value pair:
+
+```
+GREETING=Hello from ConfigMap
+```
+
+---
+
+### ✅ 2. Run a Pod That Uses It
+
+```yaml
+# configmap-simple-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-demo
+spec:
+  containers:
+  - name: demo
+    image: busybox
+    command: ["sh", "-c", "echo $GREETING && sleep 3600"]
+    env:
+    - name: GREETING
+      valueFrom:
+        configMapKeyRef:
+          name: my-config
+          key: GREETING
+```
+
+Apply it:
+
+```bash
+kubectl apply -f configmap-simple-pod.yaml
+```
+
+---
+
+### ✅ 3. Check the Output
+
+```bash
+kubectl logs configmap-demo
+```
+
+You should see:
+
+```
+Hello from ConfigMap
+```
+---
+secret
+
+## What are Secrets?
+### A Secret is similar to a ConfigMap but used for sensitive data like passwords, tokens, and SSH keys.
+They are stored Base64-encoded and are better than hardcoding secrets into Pod specs.
+
+---
+
+### ✅ 1. Create a Secret my-secret.yaml
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+stringData:
+  DB_PASSWORD: mydummysecret
+```
+
+This creates a Secret named `my-secret` with:
+
+```
+DB_PASSWORD = mydummysecret
+```
+
+---
+
+### ✅ 2. Create a Pod That Uses the Secret
+
+```yaml
+# secret-simple-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-demo
+spec:
+  containers:
+  - name: demo
+    image: busybox
+    command: ["sh", "-c", "echo $DB_PASSWORD && sleep 3600"]
+    env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: my-secret
+          key: DB_PASSWORD
+```
+
+Apply it:
+
+```bash
+kubectl apply -f secret-simple-pod.yaml
+```
+
+---
+
+### ✅ 3. Check the Output
+
+```bash
+kubectl logs secret-demo
+```
+
+You should see:
+
+```
+mydummysecret
+```
+
+---
 
