@@ -239,7 +239,7 @@ spec:
     spec:
       containers:
       - name: game-2048
-        image: alexwhen/docker-2048
+        image: thipparthiavinash/2048-game
         ports:
         - containerPort: 80
 ```
