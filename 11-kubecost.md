@@ -85,7 +85,7 @@ eksctl create addon --name aws-ebs-csi-driver --cluster ekswithavinash \
 
 ### 6. Authenticate and Login to ECR Public with Helm
 ```bash
-aws ecr-public get-login-password --region ap-south-1 | helm registry login --username AWS --password-stdin public.ecr.aws
+aws ecr-public get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin public.ecr.aws
 ```
  **Description:**  
 - Retrieves the authentication token for Amazon ECR Public in the `ap-south-1` region.
