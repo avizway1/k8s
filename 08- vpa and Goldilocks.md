@@ -32,7 +32,7 @@ To install VPA, first download the source code from the Kubernetes autoscaler re
 git clone https://github.com/kubernetes/autoscaler.git
 
 # Navigate to the vertical-pod-autoscaler directory
-cd autoscaler
+cd /autoscaler/vertical-pod-autoscaler/
 ```
 
 Now, install VPA by running the following command:
