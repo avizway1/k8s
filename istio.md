@@ -1,4 +1,4 @@
-# What Istio Is — In Simple Words
+# What Istio Is
 
 **Istio** is a “traffic manager + security guard + observability toolkit” for microservices running inside Kubernetes. Instead of you hard-coding retries, timeouts, mTLS, canary splits, and request logs inside every app, Istio adds these features **from the platform** using lightweight **sidecar proxies** (Envoy) that sit next to each pod. You keep writing business code; Istio handles service-to-service networking, security, and visibility.
 
